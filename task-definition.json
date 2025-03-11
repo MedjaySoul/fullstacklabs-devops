@@ -1,0 +1,28 @@
+{
+    "family": "rdicidr-task-definition",
+    "networkMode": "bridge",
+    "requiresCompatibilities": ["EC2"],
+    "containerDefinitions": [
+        {
+            "name": "rdicidr-container",
+            "image": "<your-account-id>.dkr.ecr.<region>.amazonaws.com/rdicidr-app:latest",
+            "memory": 450,
+            "cpu": 256,
+            "portMappings": [
+                {
+                    "containerPort": 80,
+                    "hostPort": 80,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "healthCheck": {
+                "command": ["CMD-SHELL", "curl -f http://localhost:80/ || exit 1"],
+                "interval": 30,
+                "timeout": 5,
+                "retries": 3,
+                "startPeriod": 60
+            }
+        }
+    ]
+} 
